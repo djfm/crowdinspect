@@ -20,3 +20,4 @@
 [09-Jul-2014 10:06:16 UTC] PHP Parse error:  syntax error, unexpected ')' in /home/fram/projects/crowdinspect/app/lib/DiffManager.php on line 314
 [09-Jul-2014 11:29:53 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/fram/projects/crowdinspect/app/lib/DiffManager.php on line 277
 [09-Jul-2014 11:55:24 UTC] PHP Fatal error:  Cannot redeclare HomeController::versions() in /home/fram/projects/crowdinspect/app/controllers/HomeController.php on line 38
+[09-Jul-2014 14:25:30 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/fram/projects/crowdinspect/app/lib/DiffManager.php on line 391

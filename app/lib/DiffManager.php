@@ -319,6 +319,7 @@ class DiffManager
 	{
 		$version_numbers = array();
 		$versions = array();
+		$paths = array();
 
 		foreach ($data as $cmp)
 		{
@@ -343,10 +344,78 @@ class DiffManager
 				}
 			}
 
+			$paths = array_unique(array_merge($paths, array_keys($lang)));
+
 			$versions[$cmp['version']] = $version;
 		}
 
+		$diffs = [];
 
-		return $version_numbers;
+		foreach ($paths as $path)
+		{
+			$diff = [];
+
+			$keys = [];
+			foreach ($version_numbers as $v)
+				$keys = array_unique(array_merge($keys, array_keys($versions[$v][$path])));
+
+			foreach ($keys as $key)
+			{
+				$message = null;
+				$last_translation = null;
+
+				$d = [];
+
+				foreach ($version_numbers as $v)
+				{
+					$translation = null;
+					if (isset($versions[$v][$path][$key]))
+					{
+						$mt = $versions[$v][$path][$key];
+						if ($message === null)
+							$message = $mt['message'];
+
+						$translation = trim($mt['translation']);
+						if (!$translation)
+							$translation = null;
+
+						if ($last_translation !== null)
+						{
+							if ($translation === null)
+							{
+								$d[] = ['version' => $v, 'type' => 'LOST', 'translation' => ''];
+							}
+							elseif ($translation !== $last_translation)
+							{
+								$d[] = ['version' => $v, 'type' => 'CHANGED', 'translation' => $translation, 'was' => $last_translation];
+							}
+						}
+						elseif ($last_translation !== null)
+						{
+							if ($translation)
+							{
+								$d[] = ['version' => $v, 'type' => 'NEW', 'translation' => $translation];
+							}
+						}
+
+						$last_translation = $translation;
+					}
+					else
+					{
+						$d[] = ['version' => $v, 'type' => '#N/A', 'translation' => ''];
+					}
+				}
+
+				if (count($d) > 0)
+				{
+					$diff[$key] = ['message' => $message, 'diff' => $d];
+				}
+			}
+
+			if (count($diff) > 0)
+				$diffs[$path] = $diff;
+		}
+
+		return $diffs;
 	}
 }
