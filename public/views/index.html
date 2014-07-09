@@ -37,3 +37,44 @@
 		<button ng-click="runComparison()" ng-if="toCompare.length > 0" type="button" class="btn btn-default">Compare!</button>
 	</div>
 </div>
+<h2>Comparison Results</h2>
+<div ng-if="!comparison || Object.keys(comparison).length === 0">Nothing compared yet.</div>
+<div class="row" ng-repeat="(file, kdiffs) in comparison">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div ng-click="files_to_show[file] = !files_to_show[file]" class="panel-heading"><span class="filename">{{file}}</span>&nbsp;-&nbsp;({{count(kdiffs)}})</div>
+			<div class="panel-body" ng-show="files_to_show[file]">
+				<div class="diff" ng-repeat="(k, diff) in kdiffs">
+					<div class="row">
+						<div class="col-lg-2"><em>Key</em></div>
+						<div class="col-lg-10"><span class="key">{{k}}</span></div>
+					</div>
+					<div class="row">
+						<div class="col-lg-2"><em>Message</em></div>
+						<div class="col-lg-10"><span class="message">{{diff.message}}</span></div>
+					</div>
+					<br>
+					<div class="row version-diff" ng-repeat="d in diff.diff">
+						<div class="col-lg-2"><span class="label label-default pull-right">{{d.version}}</span></div>
+						<div class="col-lg-10">
+							<div ng-switch="d.type">
+								<div ng-switch-when="CHANGED">
+									<span class="translation old">{{d.was}}</span> => <span class="translation new">{{d.translation}}</span>
+								</div>
+								<div ng-switch-when="LOST">
+									<span class="label label-danger">Translation disappeared.</span>
+								</div>
+								<div ng-switch-when="NEW">
+									<span class="label label-success">{{d.translation}}</span>
+								</div>
+								<div ng-switch-when="#N/A">
+									<span class="label label-default">Key disappeared from version.</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>		
+	</div>
+</div>

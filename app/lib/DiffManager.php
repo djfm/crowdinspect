@@ -53,10 +53,11 @@ class DiffManager
 			}
 		}
 		$latest = count($files) > 0 ? max($files) : null;
-
 		$t = time();
+		$checked_at_file = base_path().'/data/last_checked_at';
+		$checked_at = file_exists($checked_at_file) ? (int)file_get_contents($checked_at_file) : 0;
 		// Don't try to update too often
-		if (!$latest || ($t - (int)basename($latest, '.zip')) > 6*24*60)
+		if ($t - $checked_at > 6*60*60)
 		{
 			$data = file_get_contents(Config::get('crowdinspect.download_url'));
 			if (!$latest || md5(file_get_contents($latest)) !== md5($data))
@@ -64,6 +65,7 @@ class DiffManager
 				$new_file = $this->getRawPath()."/$t.zip";
 				file_put_contents($new_file, $data);
 			}
+			file_put_contents($checked_at_file, $t);
 		}
 
 		$this->prepareNewFiles();

@@ -1,4 +1,5 @@
-body {
+body
+{
 	margin-top: 50px;
 	counter-reset: section;
 }
@@ -12,12 +13,14 @@ h2:before {
  content: counter(section) ". ";
 }*/
 
-div.flex-default {
+div.flex-default
+{
 	display: flex;
 	flex-wrap: wrap;
 }
 
-div.flex-default div {
+div.flex-default div
+{
 	border: 1px solid #ccc;
 	padding: 5px;
 	border-radius: 5px;
@@ -26,7 +29,8 @@ div.flex-default div {
 	box-shadow: 1px 1px 5px #CCC;
 }
 
-div.flex-default div:hover {
+div.flex-default div:hover
+{
 	background-color: #eee;
 }
 
@@ -51,4 +55,37 @@ div.flex-default div:hover {
 
 [ng-click] {
 	cursor: pointer;
+}
+
+.diff
+{
+	margin-bottom: 5px;
+}
+
+.key
+{
+	color: #123;
+	font-size: 0.9em;
+}
+
+.diff
+{
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	padding: 5px;
+}
+
+.old
+{
+	color: #F44;
+}
+
+.new
+{
+	color: #2A2;
+}
+
+.version-diff
+{
+	margin-bottom: 2px;
 }
