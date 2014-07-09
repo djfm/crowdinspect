@@ -1,0 +1,14 @@
+[09-Jul-2014 07:12:00 UTC] PHP Fatal error:  Using $this when not in object context in /home/fram/projects/crowdinspect/app/lib/DiffManager.php on line 9
+[09-Jul-2014 07:12:02 UTC] PHP Fatal error:  Using $this when not in object context in /home/fram/projects/crowdinspect/app/lib/DiffManager.php on line 9
+[09-Jul-2014 07:12:03 UTC] PHP Fatal error:  Using $this when not in object context in /home/fram/projects/crowdinspect/app/lib/DiffManager.php on line 9
+[09-Jul-2014 07:12:04 UTC] PHP Fatal error:  Using $this when not in object context in /home/fram/projects/crowdinspect/app/lib/DiffManager.php on line 9
+[09-Jul-2014 07:12:04 UTC] PHP Fatal error:  Using $this when not in object context in /home/fram/projects/crowdinspect/app/lib/DiffManager.php on line 9
+[09-Jul-2014 07:12:04 UTC] PHP Fatal error:  Using $this when not in object context in /home/fram/projects/crowdinspect/app/lib/DiffManager.php on line 9
+[09-Jul-2014 07:12:05 UTC] PHP Fatal error:  Using $this when not in object context in /home/fram/projects/crowdinspect/app/lib/DiffManager.php on line 9
+[09-Jul-2014 07:12:05 UTC] PHP Fatal error:  Using $this when not in object context in /home/fram/projects/crowdinspect/app/lib/DiffManager.php on line 9
+[09-Jul-2014 07:13:15 UTC] PHP Fatal error:  Call to undefined method DiffManager::update() in /home/fram/projects/crowdinspect/app/controllers/HomeController.php on line 21
+[09-Jul-2014 07:14:00 UTC] PHP Fatal error:  Call to undefined method DiffManager::update() in /home/fram/projects/crowdinspect/app/controllers/HomeController.php on line 21
+[09-Jul-2014 09:16:07 Europe/Berlin] PHP Parse error:  syntax error, unexpected '}' in /home/fram/projects/crowdinspect/app/lib/DiffManager.php on line 24
+[09-Jul-2014 07:16:11 UTC] PHP Fatal error:  Call to undefined function app_base() in /home/fram/projects/crowdinspect/app/lib/DiffManager.php on line 23
+[09-Jul-2014 10:21:56 Europe/Berlin] PHP Parse error:  syntax error, unexpected '{' in /home/fram/projects/crowdinspect/app/lib/DiffManager.php on line 204
+[09-Jul-2014 08:24:15 UTC] PHP Fatal error:  Call to undefined method DiffManager::flattenArray() in /home/fram/projects/crowdinspect/app/lib/DiffManager.php on line 208
