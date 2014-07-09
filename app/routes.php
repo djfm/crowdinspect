@@ -12,3 +12,7 @@
 */
 
 Route::get('/', 'HomeController@index');
+Route::get('/dates', 'HomeController@dates');
+Route::get('/dates/{timestamp}', 'HomeController@versions');
+Route::get('/dates/{timestamp}/{lc}', 'HomeController@languages');
+Route::post('/compare', 'HomeController@compare');

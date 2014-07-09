@@ -1,0 +1,39 @@
+<div class="row">
+	<div class="col-lg-8">
+		<div class="row">
+			<div class="col-lg-6">
+				<h2>Pick a date</h2>
+				<div class="flex-default">
+					<div data-selected="{{date.timestamp === timestamp}}" ng-click="dateChosen(date.timestamp, date.date)" ng-repeat="date in dates">{{date.date}}</div>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<h2>Pick a version</h2>
+				<div ng-if="versions.length === 0">No version available, please choose a date!</div>
+				<div class="flex-default">
+					<div data-selected="{{version === v}}" ng-click="versionChosen(v)" ng-repeat="v in versions">{{v}}</div>
+				</div>
+			</div>
+		</div>
+		<h2>Pick a language</h2>
+		<div ng-if="languages.length === 0">No language available, please choose a date and a version!</div>
+		<div class="flex-default">
+			<div data-selected="{{language === l}}" ng-click="languageChosen(l)" ng-repeat="l in languages" class="language-code">{{l}}</div>
+		</div>
+		<br>
+		<button type="button" ng-click="addToComparison()" ng-if="timestamp && version && language" class="btn btn-default">Add To Comparison</button>
+	</div>
+	<div class="col-lg-4">
+		<h2>Compare</h2>
+		<div ng-if="toCompare.length === 0">Nothing to compare yet!</div>
+		<div class="compare" ng-repeat="(i, cmp) in toCompare">
+			<span ng-click="removeComparedItem(i)" class="glyphicon glyphicon-remove"></span>
+			&nbsp;&nbsp;
+			<span ng-click="moveComparedItem(i, -1)" class="glyphicon glyphicon-arrow-up"></span>
+			<span ng-click="moveComparedItem(i, +1)" class="glyphicon glyphicon-arrow-down"></span>
+			{{cmp.language}}@{{cmp.version}} [{{cmp.date}}]
+		</div>
+		<br>
+		<button ng-click="runComparison()" ng-if="toCompare.length > 0" type="button" class="btn btn-default">Compare!</button>
+	</div>
+</div>

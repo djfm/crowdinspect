@@ -55,9 +55,8 @@ class DiffManager
 		$latest = count($files) > 0 ? max($files) : null;
 
 		$t = time();
-
 		// Don't try to update too often
-		if (!$latest || ((int)basename($latest, '.zip') - $t) > 24*60*60)
+		if (!$latest || ($t - (int)basename($latest, '.zip')) > 6*24*60)
 		{
 			$data = file_get_contents(Config::get('crowdinspect.download_url'));
 			if (!$latest || md5(file_get_contents($latest)) !== md5($data))
@@ -257,5 +256,97 @@ class DiffManager
 		}
 
 		return $out;
+	}
+
+	public function getDates()
+	{
+		$dates = [];
+
+		foreach (scandir($this->getPreparedPath()) as $timestamp)
+		{
+			if (preg_match('/^\d+$/', $timestamp))
+			{
+				$dates[] = array(
+					'timestamp' => $timestamp,
+					'date' => strftime('%B %d, %Y (around %Hh)', $timestamp)
+				);
+			}
+		}
+
+		usort($dates, function($a, $b){return $a['timestamp'] - $b['timestamp'];});
+
+		return $dates;
+	}
+
+	public function getVersions($timestamp)
+	{
+		$versions = array();
+
+		$dir = $this->getPreparedPath().'/'.(int)$timestamp;
+		foreach (scandir($dir) as $version)
+		{
+			if (preg_match('/^\d(?:\.\d+)*$/', $version))
+				$versions[] = $version;
+		}
+
+		usort($versions, function($a, $b) {
+			return version_compare($a, $b, '>=');
+		});
+
+		return $versions;
+	}
+
+	public function getLanguages($timestamp, $version)
+	{
+		if (!preg_match('/^\d+(?:\.\d+)*$/', $version))
+			return array();
+
+		$languages = array();
+
+		$dir = $this->getPreparedPath().'/'.(int)$timestamp.'/'.$version;
+		foreach (scandir($dir) as $language)
+		{
+			if (preg_match('/^[a-z]{2,3}-[A-Z]{2}\.json$/', $language))
+			{
+				$languages[] = basename($language, '.json');
+			}
+		}
+
+		return $languages;
+	}
+
+	public function compare($data)
+	{
+		$version_numbers = array();
+		$versions = array();
+
+		foreach ($data as $cmp)
+		{
+			$lang_json_path = $this->getPreparedPath().'/'.$cmp['timestamp'].'/'.$cmp['version'].'/'.$cmp['language'].'.json';
+			$engl_json_path = $this->getPreparedPath().'/'.$cmp['timestamp'].'/'.$cmp['version'].'/en-US.json';
+
+			$lang = json_decode(file_get_contents($lang_json_path), true);
+			$engl = json_decode(file_get_contents($engl_json_path), true);
+
+			$version = array();
+			$version_numbers[] = $cmp['version'];
+
+			foreach ($lang as $path => $dictionary)
+			{
+				$version[$path] = array();
+				foreach ($dictionary as $key => $value)
+				{
+					$version[$path][$key] = array(
+						'message' => $engl[$path][$key],
+						'translation' => $value
+					);
+				}
+			}
+
+			$versions[$cmp['version']] = $version;
+		}
+
+
+		return $version_numbers;
 	}
 }

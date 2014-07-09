@@ -1,5 +1,5 @@
 @extends('layout')
 
 @section('content')
-	{{Config::get('crowdinspect.project_url')}}
+	<div ng-app="crowdinspect" ng-view></div>
 @stop
