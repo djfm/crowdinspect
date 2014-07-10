@@ -46,8 +46,15 @@ class DiffManager
 	{
 		$lock_file = base_path().'/data/update.lock';
 		$lfh = fopen($lock_file, 'r');
-		if (!flock($lfh, LOCK_EX))
-			return "Could not acquire lock on $lock_file, update probably in progress.";
+		
+		if (!$lfh)
+			return 'Could not find lock file!';
+
+		if (!flock($lfh, LOCK_EX | LOCK_NB))
+		{
+			fclose($lfh);
+			return 'Could not acquire lock on lock_file, update probably already in progress.';
+		}
 
 
 		$files = [];
@@ -77,6 +84,7 @@ class DiffManager
 		$this->prepareNewFiles();
 
 		flock($lfh, LOCK_UN);
+		fclose($lfh);
 	}
 
 	public function prepareNewFiles()
