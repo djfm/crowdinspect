@@ -17,9 +17,6 @@ class HomeController extends BaseController {
 
 	public function index()
 	{
-		$dm = DiffManager::get();
-		$dm->update();
-
 		return View::make('index');
 	}
 
@@ -64,5 +61,11 @@ class HomeController extends BaseController {
 
 		$dm = DiffManager::get();
 		return Response::json($dm->compare($ok));
+	}
+
+	public function update()
+	{
+		$dm = DiffManager::get();
+		return Response::json($dm->update());
 	}
 }

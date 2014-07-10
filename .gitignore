@@ -1,6 +1,7 @@
-/bootstrap/compiled.php
-/vendor
-/data
+bootstrap/compiled.php
+vendor
+data
+!data/update.lock
 composer.phar
 composer.lock
 .env.*.php

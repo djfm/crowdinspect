@@ -44,6 +44,12 @@ class DiffManager
 
 	public function update()
 	{
+		$lock_file = base_path().'/data/update.lock';
+		$lfh = fopen($lock_file, 'r');
+		if (!flock($lfh, LOCK_EX))
+			return "Could not acquire lock on $lock_file, update probably in progress.";
+
+
 		$files = [];
 		foreach (scandir($this->getRawPath()) as $entry)
 		{
@@ -57,7 +63,7 @@ class DiffManager
 		$checked_at_file = base_path().'/data/last_checked_at';
 		$checked_at = file_exists($checked_at_file) ? (int)file_get_contents($checked_at_file) : 0;
 		// Don't try to update too often
-		if ($t - $checked_at > 6*60*60)
+		if ($t - $checked_at > 0)
 		{
 			$data = file_get_contents(Config::get('crowdinspect.download_url'));
 			if (!$latest || md5(file_get_contents($latest)) !== md5($data))
@@ -69,6 +75,8 @@ class DiffManager
 		}
 
 		$this->prepareNewFiles();
+
+		flock($lfh, LOCK_UN);
 	}
 
 	public function prepareNewFiles()
