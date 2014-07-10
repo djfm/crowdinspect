@@ -1,6 +1,6 @@
 bootstrap/compiled.php
 vendor
-data
+data/*
 !data/update.lock
 composer.phar
 composer.lock
