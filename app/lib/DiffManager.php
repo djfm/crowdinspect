@@ -70,7 +70,7 @@ class DiffManager
 		$checked_at_file = base_path().'/data/last_checked_at';
 		$checked_at = file_exists($checked_at_file) ? (int)file_get_contents($checked_at_file) : 0;
 		// Don't try to update too often
-		if ($t - $checked_at > 0)
+		if ($t - $checked_at > 4 * 60 * 60)
 		{
 			$data = file_get_contents(Config::get('crowdinspect.download_url'));
 			if (!$latest || md5(file_get_contents($latest)) !== md5($data))
